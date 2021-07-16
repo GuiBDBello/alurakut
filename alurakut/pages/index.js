@@ -28,22 +28,26 @@ function ProfileSidebar(propriedades) {
 }
 
 function ProfileRelationsBox(propriedades) {
+  let itemsLength = propriedades.items.length;
+  propriedades.items.length = 6;
+  
   return (
     <ProfileRelationsBoxWrapper>
       <h2 className="smallTitle">
-        {propriedades.title} ({propriedades.items.length})
+        {propriedades.title} ({itemsLength})
       </h2>
       <ul>
-        {/* {seguidores.map((itemAtual) => {
+        {propriedades.items.map((itemAtual) => {
+          console.log(itemAtual);
           return (
-            <li key={itemAtual}>
-              <a href={`https://github.com/${itemAtual}.png`}>
-                <img src={itemAtual.image}/>
-                <span>{itemAtual.title}</span>
+            <li key={itemAtual.id}>
+              <a href={`https://github.com/${itemAtual.login}.png`}>
+                <img src={itemAtual.avatar_url}/>
+                <span>{itemAtual.login}</span>
               </a>
             </li>
           );
-        })} */}
+        })}
       </ul>
     </ProfileRelationsBoxWrapper>
   );
