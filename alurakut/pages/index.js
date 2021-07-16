@@ -14,7 +14,7 @@ function ProfileSidebar(propriedades) {
         style={{ borderRadius: '8px' }}
       />
       <hr />
-      
+
       <p>
         <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`}>
           @{propriedades.githubUser}
@@ -25,6 +25,28 @@ function ProfileSidebar(propriedades) {
       <AlurakutProfileSidebarMenuDefault />
     </Box>
   )
+}
+
+function ProfileRelationsBox(propriedades) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {propriedades.title} ({propriedades.items.length})
+      </h2>
+      <ul>
+        {/* {seguidores.map((itemAtual) => {
+          return (
+            <li key={itemAtual}>
+              <a href={`https://github.com/${itemAtual}.png`}>
+                <img src={itemAtual.image}/>
+                <span>{itemAtual.title}</span>
+              </a>
+            </li>
+          );
+        })} */}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  );
 }
 
 export default function Home() {
@@ -43,6 +65,21 @@ export default function Home() {
     //'felipefialho',
     'joaodos3v' //menino do HTML
   ]
+
+  const [seguidores, setSeguidores] = React.useState([]);
+  
+  React.useEffect(function() {
+    fetch('https://api.github.com/users/GuiBDBello/followers')
+    .then((respostaDoServidor) => {
+      return respostaDoServidor.json();
+    })
+    .then((respostaCompleta) => {
+      setSeguidores(respostaCompleta);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }, []);
 
   return (
     <>
@@ -96,9 +133,11 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
+
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Comunidade ({comunidades.length})
+              Comunidades ({comunidades.length})
             </h2>
             <ul>
               {comunidades.map((itemAtual) => {
